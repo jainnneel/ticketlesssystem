@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +25,7 @@ public class PlaceController {
     private PlaceService placeService;
     
     @GetMapping(value = "/place/search/{pageno}",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getPlaceByStateAndCity(@RequestBody StateCitySearch stateCitySearch,@PathVariable("pageno") int pageNo) {
+    public ResponseEntity getPlaceByStateAndCity(@ModelAttribute @RequestBody StateCitySearch stateCitySearch,@PathVariable("pageno") int pageNo) {
         ResponseEntity entity = new ResponseEntity();
         List<PlaceResponseDto> placeResponseDtos = placeService.getAllPlaceyStateCity(stateCitySearch,pageNo);    
         entity.setData(placeResponseDtos);
