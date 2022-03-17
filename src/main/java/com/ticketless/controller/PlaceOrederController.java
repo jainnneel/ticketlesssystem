@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +20,7 @@ import com.ticketless.resposedto.ResponseEntity;
 import com.ticketless.service.BookingService;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class PlaceOrederController {
     
     @Autowired
