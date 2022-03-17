@@ -32,7 +32,7 @@ public class PlaceController {
         entity.setHttpStatus(HttpStatus.OK);
         entity.setStatus("success");
         return entity;
-    }
+    } 
     
     @GetMapping(value = "/place/{placeId}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getPlaceData(@PathVariable("placeId") Long placeId) {
