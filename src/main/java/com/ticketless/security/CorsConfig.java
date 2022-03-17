@@ -12,6 +12,7 @@ public class CorsConfig extends WebMvcConfigurerAdapter {
         // TODO Auto-generated method stub
         super.addCorsMappings(registry);
         registry.addMapping("/**")
-        .allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH");
+        .allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH")
+        .allowedOrigins("http://localhost:3000","http://192.168.0.109:3000","http://lets-chat.s3-website.ap-south-1.amazonaws.com");
     }
 }
