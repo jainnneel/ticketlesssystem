@@ -13,6 +13,6 @@ public class CorsConfig extends WebMvcConfigurerAdapter {
         super.addCorsMappings(registry);
         registry.addMapping("/**")
         .allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH")
-        .allowedOrigins("http://localhost:3000","http://192.168.0.109:3000","http://lets-chat.s3-website.ap-south-1.amazonaws.com");
+        .allowedOrigins("http://localhost:3000","http://192.168.29.145:3000","http://192.168.0.109:3000","http://lets-chat.s3-website.ap-south-1.amazonaws.com");
     }
 }
