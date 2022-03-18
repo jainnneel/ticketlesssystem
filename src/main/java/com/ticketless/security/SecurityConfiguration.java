@@ -25,6 +25,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
     private CustomAuthenticationprovider customAuthenticationprovider;
     
     @Autowired
+    private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler; 
+    
+    @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(customAuthenticationprovider);
     }
@@ -47,10 +50,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
         .and()
         .csrf().disable()
         .formLogin()
+        .successHandler(customAuthenticationSuccessHandler)
         .failureUrl("/auth/authfail")
         .loginPage("/auth/authreq")  
-        .loginProcessingUrl("/loginrequest").permitAll()
-        .defaultSuccessUrl("/auth/successlogin").permitAll();
+        .loginProcessingUrl("/loginrequest").permitAll();
     }
     
     @Bean

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ticketless.dto.UserDto;
@@ -48,9 +49,9 @@ public class UsersAuthController {
     }
     
     @GetMapping(value = "/auth/successlogin")
-    public ResponseEntity loginSuccess(@AuthenticationPrincipal UserDetails principal,HttpServletResponse response) {
+    public ResponseEntity loginSuccess(@RequestParam("username") String principal ,HttpServletResponse response) {
         ResponseEntity entity = new ResponseEntity();
-        System.out.println(principal + " " + principal.getUsername());
+        System.out.println(principal);
         Cookie cookie = new Cookie("platform","mobile");
 
         // expires in 7 days
@@ -63,7 +64,7 @@ public class UsersAuthController {
 
         // add cookie to response
         response.addCookie(cookie);
-        String generateToken = jwtutil.generateToken(principal.getUsername());
+        String generateToken = jwtutil.generateToken(principal);
         entity.setHttpStatus(HttpStatus.OK);
         entity.setToken(generateToken);
         return entity;
