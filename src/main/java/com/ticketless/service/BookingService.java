@@ -12,6 +12,7 @@ import com.ticketless.resposedto.BookingDetailsResponse;
 import com.ticketless.resposedto.BookingDetailsResponseDto;
 import com.ticketless.resposedto.BookingResponseDto;
 import com.ticketless.resposedto.OrderCancelResponseDto;
+import com.ticketless.resposedto.OrderReviewDto;
 import com.ticketless.resposedto.OrderUpdateResponseDto;
 
 @Service
@@ -30,5 +31,7 @@ public interface BookingService {
     BookingDetailsResponse getDetails(String bookingId);
 
     boolean approveTicket(String bookingId);
+
+    OrderReviewDto getBooKingInfo(String bookingId);
 
 }

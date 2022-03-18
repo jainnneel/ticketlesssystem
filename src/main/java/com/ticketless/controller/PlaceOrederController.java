@@ -6,6 +6,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +17,7 @@ import com.ticketless.requestdto.OrderPaymentDto;
 import com.ticketless.requestdto.OrderRequestDto;
 import com.ticketless.resposedto.BookingResponseDto;
 import com.ticketless.resposedto.OrderCancelResponseDto;
+import com.ticketless.resposedto.OrderReviewDto;
 import com.ticketless.resposedto.OrderUpdateResponseDto;
 import com.ticketless.resposedto.ResponseEntity;
 import com.ticketless.service.BookingService;
@@ -61,6 +64,21 @@ public class PlaceOrederController {
         entity.setHttpStatus(HttpStatus.OK);
         if(cancellationResponse!=null) entity.setStatus("success");
         else entity.setStatus("failed");
+        return entity;
+    }
+    
+    @GetMapping(value = "/secure/booking/{bookingid}")
+    public ResponseEntity getAllDetails(@PathVariable("bookingid") String bookingId) {
+        
+        ResponseEntity entity = new ResponseEntity();
+        OrderReviewDto orderReviewDto = bookingService.getBooKingInfo(bookingId); 
+        
+        if(orderReviewDto!=null) entity.setStatus("success");
+        else entity.setStatus("failed");
+        
+        entity.setHttpStatus(HttpStatus.OK);
+        entity.setData(orderReviewDto);
+        
         return entity;
     }
     

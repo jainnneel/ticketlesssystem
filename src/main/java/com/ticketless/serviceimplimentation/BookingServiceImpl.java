@@ -36,7 +36,9 @@ import com.ticketless.resposedto.BookingDetailsResponse;
 import com.ticketless.resposedto.BookingDetailsResponseDto;
 import com.ticketless.resposedto.BookingResponseDto;
 import com.ticketless.resposedto.OrderCancelResponseDto;
+import com.ticketless.resposedto.OrderReviewDto;
 import com.ticketless.resposedto.OrderUpdateResponseDto;
+import com.ticketless.resposedto.PlaceResponseDto;
 import com.ticketless.resposedto.QrResponseDto;
 import com.ticketless.service.BookingService;
 import com.ticketless.service.PlaceService;
@@ -75,10 +77,11 @@ public class BookingServiceImpl implements BookingService {
                 booking.setAdultQnt(orderRequestDto.getAdultQnt());
                 booking.setChildQnt(orderRequestDto.getChildQnt());
                 booking.setVisitDate(orderRequestDto.getVisitDate());
-                bookingRepo.save(booking);
+                Booking save = bookingRepo.save(booking);
                 BookingResponseDto bookingResponseDto = new BookingResponseDto();
                 bookingResponseDto.setOrderId(order.get("id"));
                 bookingResponseDto.setPrice(String.valueOf(amount));
+                bookingResponseDto.setBookingId(String.valueOf(save.getBookingId()));
                 return bookingResponseDto;
             }
         }
@@ -314,4 +317,60 @@ public class BookingServiceImpl implements BookingService {
         }
     }
 
+    @Override
+    public OrderReviewDto getBooKingInfo(String bookingId) {
+        OrderReviewDto dto = new OrderReviewDto();
+        Optional<Booking> booking =  bookingRepo.findById(Long.valueOf(bookingId));
+        if(booking.isPresent()) {
+            BookingDetailsResponseDto bookingDetailsResponse = bookingDetailsDtoConvertor(booking.get());
+            PlaceResponseDto placeResponseDto = convertorPlaceDto(booking.get().getPlace());
+            dto.setDetailsResponseDto(bookingDetailsResponse);
+            dto.setPlaceResponseDto(placeResponseDto);
+            return dto;
+        }
+        return null;
+    }
+    
+    private PlaceResponseDto convertorPlaceDto(Place place) {
+        PlaceResponseDto placeResponseDto = new PlaceResponseDto();
+        placeResponseDto.setCity(place.getCity());
+        placeResponseDto.setEndTime(place.getEndTime());
+        placeResponseDto.setLatitude(place.getLatitude());
+        placeResponseDto.setLongitude(place.getLongitude());
+        placeResponseDto.setPicUrl(place.getPicUrl());
+        placeResponseDto.setPlaceDescription(place.getPlaceDescription());
+        placeResponseDto.setPlaceId(place.getPlaceId());
+        placeResponseDto.setPlaceName(place.getPlaceName());
+        placeResponseDto.setPriceAdult(place.getPriceAdult());
+        placeResponseDto.setPriceChild(place.getPriceChild());
+        placeResponseDto.setStartTime(place.getStartTime());
+        placeResponseDto.setState(place.getState());
+        return placeResponseDto;
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

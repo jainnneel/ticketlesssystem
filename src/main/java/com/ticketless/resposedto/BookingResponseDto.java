@@ -5,6 +5,8 @@ public class BookingResponseDto {
     private String orderId;
     
     private String price;
+    
+    private String bookingId;
 
     public BookingResponseDto() {
         super();
@@ -30,6 +32,14 @@ public class BookingResponseDto {
 
     public void setPrice(String price) {
         this.price = price;
+    }
+    
+    public String getBookingId() {
+        return bookingId;
+    }
+
+    public void setBookingId(String bookingId) {
+        this.bookingId = bookingId;
     }
 
     @Override
