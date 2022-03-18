@@ -10,7 +10,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 
 import com.ticketless.model.Users;
@@ -45,6 +47,8 @@ public class CustomAuthenticationprovider implements AuthenticationProvider {
                 List<GrantedAuthority> grantedAuths = new ArrayList<>();
                 grantedAuths.add(new SimpleGrantedAuthority("ROLE_USER"));
                 authenticationToken = new UsernamePasswordAuthenticationToken(new User(mobile, "", grantedAuths), "",grantedAuths);
+//                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
         }
         return authenticationToken;
