@@ -50,6 +50,7 @@ public class UsersAuthController {
     @GetMapping(value = "/auth/successlogin")
     public ResponseEntity loginSuccess(@AuthenticationPrincipal UserDetails principal,HttpServletResponse response) {
         ResponseEntity entity = new ResponseEntity();
+        System.out.println(principal + " " + principal.getUsername());
         Cookie cookie = new Cookie("platform","mobile");
 
         // expires in 7 days
