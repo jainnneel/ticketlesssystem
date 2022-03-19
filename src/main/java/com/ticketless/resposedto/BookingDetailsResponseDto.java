@@ -24,6 +24,8 @@ public class BookingDetailsResponseDto {
 
     private PlaceResponseDto placeResponseDto;
     
+    private QrResponseDto qrResponseDto;
+    
     public BookingDetailsResponseDto() {
         super();
     }
@@ -36,6 +38,14 @@ public class BookingDetailsResponseDto {
         this.amount = amount;
         this.bookingTime = bookingTime;
         this.bookingDate = bookingDate;
+    }
+    
+    public QrResponseDto getQrResponseDto() {
+        return qrResponseDto;
+    }
+
+    public void setQrResponseDto(QrResponseDto qrResponseDto) {
+        this.qrResponseDto = qrResponseDto;
     }
 
     public String getOrderId() {

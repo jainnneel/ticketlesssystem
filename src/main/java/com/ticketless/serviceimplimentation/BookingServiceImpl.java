@@ -172,6 +172,7 @@ public class BookingServiceImpl implements BookingService {
         bookingDetailsResponseDto.setAdultQnt(booking.getAdultQnt());
         bookingDetailsResponseDto.setBookingId(booking.getBookingId());
         bookingDetailsResponseDto.setPlaceResponseDto(placeService.getPlaceById(booking.getPlace().getPlaceId()));
+        bookingDetailsResponseDto.setQrResponseDto(new QrResponseDto(booking.getQrCode().getQrUrl()));
         return bookingDetailsResponseDto;
     }
 
