@@ -34,4 +34,6 @@ public interface BookingService {
 
     OrderReviewDto getBooKingInfo(String bookingId);
 
+    OrderUpdateResponseDto getBookingReceit(String bookingId);
+
 }

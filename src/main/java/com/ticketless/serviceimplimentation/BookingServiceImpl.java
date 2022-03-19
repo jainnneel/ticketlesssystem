@@ -171,6 +171,7 @@ public class BookingServiceImpl implements BookingService {
         bookingDetailsResponseDto.setChildQnt(booking.getChildQnt());
         bookingDetailsResponseDto.setAdultQnt(booking.getAdultQnt());
         bookingDetailsResponseDto.setBookingId(booking.getBookingId());
+        bookingDetailsResponseDto.setPlaceResponseDto(placeService.getPlaceById(booking.getPlace().getPlaceId()));
         return bookingDetailsResponseDto;
     }
 
@@ -346,6 +347,18 @@ public class BookingServiceImpl implements BookingService {
         placeResponseDto.setStartTime(place.getStartTime());
         placeResponseDto.setState(place.getState());
         return placeResponseDto;
+    }
+
+    @Override
+    public OrderUpdateResponseDto getBookingReceit(String bookingId) {
+        OrderUpdateResponseDto dto = new OrderUpdateResponseDto();
+        Optional<Booking> booking = bookingRepo.findById(Long.valueOf(bookingId));
+        if(booking.isPresent()) {
+            dto.setPlaceResponseDto(placeService.getPlaceById(booking.get().getPlace().getPlaceId()));
+            dto.setDetailsResponseDto(bookingDetailsDtoConvertor(booking.get()));
+            return dto;
+        }
+        return null;
     }
 
 }

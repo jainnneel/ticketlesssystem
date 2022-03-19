@@ -82,6 +82,21 @@ public class PlaceOrederController {
         return entity;
     }
     
+    @GetMapping(value = "/secure/booking/success/{bookingid}",produces = MediaType.APPLICATION_JSON_VALUE) 
+    public ResponseEntity getBookingDetails(@PathVariable("bookingid") String bookingId) {
+        ResponseEntity entity = new ResponseEntity();
+        
+        OrderUpdateResponseDto orderUpdateResponseDto = bookingService.getBookingReceit(bookingId);
+        
+        if(orderUpdateResponseDto == null) entity.setStatus("failed");
+        else entity.setStatus("success");
+        
+        entity.setData(orderUpdateResponseDto);
+        entity.setHttpStatus(HttpStatus.OK);
+        
+        return entity;
+    }
+    
 
 }
 

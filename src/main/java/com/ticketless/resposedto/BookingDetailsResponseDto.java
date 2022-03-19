@@ -22,6 +22,8 @@ public class BookingDetailsResponseDto {
     
     private Long bookingId;
 
+    private PlaceResponseDto placeResponseDto;
+    
     public BookingDetailsResponseDto() {
         super();
     }
@@ -106,6 +108,14 @@ public class BookingDetailsResponseDto {
 
     public void setBookingId(Long bookingId) {
         this.bookingId = bookingId;
+    }
+    
+    public PlaceResponseDto getPlaceResponseDto() {
+        return placeResponseDto;
+    }
+
+    public void setPlaceResponseDto(PlaceResponseDto placeResponseDto) {
+        this.placeResponseDto = placeResponseDto;
     }
 
     @Override
