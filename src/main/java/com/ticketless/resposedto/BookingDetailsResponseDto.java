@@ -26,6 +26,10 @@ public class BookingDetailsResponseDto {
     
     private QrResponseDto qrResponseDto;
     
+    private boolean canCancel;
+    
+    private boolean cancelled;
+    
     public BookingDetailsResponseDto() {
         super();
     }
@@ -126,6 +130,22 @@ public class BookingDetailsResponseDto {
 
     public void setPlaceResponseDto(PlaceResponseDto placeResponseDto) {
         this.placeResponseDto = placeResponseDto;
+    }
+    
+    public boolean isCanCancel() {
+        return canCancel;
+    }
+
+    public void setCanCancel(boolean canCancel) {
+        this.canCancel = canCancel;
+    }
+
+    public boolean isCancelled() {
+        return cancelled;
+    }
+
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
     }
 
     @Override

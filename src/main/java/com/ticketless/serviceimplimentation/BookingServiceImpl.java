@@ -6,6 +6,10 @@ import java.sql.Time;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.chrono.ChronoLocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -172,7 +176,19 @@ public class BookingServiceImpl implements BookingService {
         bookingDetailsResponseDto.setAdultQnt(booking.getAdultQnt());
         bookingDetailsResponseDto.setBookingId(booking.getBookingId());
         bookingDetailsResponseDto.setPlaceResponseDto(placeService.getPlaceById(booking.getPlace().getPlaceId()));
-        bookingDetailsResponseDto.setQrResponseDto(new QrResponseDto(booking.getQrCode().getQrUrl()));
+        bookingDetailsResponseDto.setCancelled(booking.isCancelled());
+        DateTimeFormatter format = new DateTimeFormatterBuilder()
+                .appendPattern("dd-MM-yyyy")
+                .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
+                .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
+                .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)
+                .parseDefaulting(ChronoField.MILLI_OF_SECOND, 0)
+                .toFormatter();
+        String bookingDate = booking.getVisitDate();
+        if(LocalDate.now().plusDays(1).isBefore(LocalDate.parse(bookingDate, format))) {
+            bookingDetailsResponseDto.setCanCancel(true);
+        }
+        
         return bookingDetailsResponseDto;
     }
 
@@ -210,7 +226,7 @@ public class BookingServiceImpl implements BookingService {
                     booking2.setAmount(String.valueOf(Double.valueOf(booking2.getAmount())
                             - (Double.valueOf(cancellationDto.getAdultQnt()) * Double.valueOf(place.getPriceAdult()))
                             + (Double.valueOf(cancellationDto.getChildQnt()) * Double.valueOf(place.getPriceChild()))));
-
+                    booking2.setCancelled(true);    
                     bookingRepo.save(booking2);
 
                     cancelOrder.setRefundMode(cancellationDto.getRefundMode());

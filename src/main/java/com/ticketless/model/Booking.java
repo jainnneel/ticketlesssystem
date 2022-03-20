@@ -46,6 +46,16 @@ public class Booking {
     
     private boolean visited;
     
+    private boolean cancelled;
+    
+    public boolean isCancelled() {
+        return cancelled;
+    }
+
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
+    }
+
     @OneToOne(cascade = CascadeType.ALL)
     private QrCode qrCode;
     
