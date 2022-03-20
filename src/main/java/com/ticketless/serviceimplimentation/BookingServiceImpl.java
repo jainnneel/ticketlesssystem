@@ -355,8 +355,11 @@ public class BookingServiceImpl implements BookingService {
         OrderUpdateResponseDto dto = new OrderUpdateResponseDto();
         Optional<Booking> booking = bookingRepo.findById(Long.valueOf(bookingId));
         if(booking.isPresent()) {
+            QrResponseDto dto2 = new QrResponseDto();
+            dto2.setQrUrl(booking.get().getQrCode().getQrUrl());
             dto.setPlaceResponseDto(placeService.getPlaceById(booking.get().getPlace().getPlaceId()));
             dto.setDetailsResponseDto(bookingDetailsDtoConvertor(booking.get()));
+            dto.setQrResponseDto(dto2);
             return dto;
         }
         return null;
