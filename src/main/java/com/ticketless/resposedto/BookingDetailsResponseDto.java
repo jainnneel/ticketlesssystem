@@ -30,6 +30,8 @@ public class BookingDetailsResponseDto {
     
     private boolean cancelled;
     
+    private boolean isCompleted;
+    
     public BookingDetailsResponseDto() {
         super();
     }
@@ -44,6 +46,14 @@ public class BookingDetailsResponseDto {
         this.bookingDate = bookingDate;
     }
     
+    public boolean isCompleted() {
+        return isCompleted;
+    }
+
+    public void setCompleted(boolean isCompleted) {
+        this.isCompleted = isCompleted;
+    }
+
     public QrResponseDto getQrResponseDto() {
         return qrResponseDto;
     }
