@@ -12,7 +12,9 @@ import org.springframework.stereotype.Component;
 import com.ticketless.model.Place;
 import com.ticketless.repository.PlaceRepo;
 import com.ticketless.requestdto.StateCitySearch;
+import com.ticketless.requestdto.VisitorRequestDto;
 import com.ticketless.resposedto.PlaceResponseDto;
+import com.ticketless.service.BookingService;
 import com.ticketless.service.PlaceService;
 
 @Component
@@ -20,6 +22,9 @@ public class PlaceServiceImpl implements PlaceService {
 
     @Autowired
     private PlaceRepo placeRepo;
+    
+    @Autowired
+    private BookingService bookingService;
 
     @Override
     public List<PlaceResponseDto> getAllPlaceyStateCity(StateCitySearch stateCitySearch, int pageNo) {
@@ -89,6 +94,15 @@ public class PlaceServiceImpl implements PlaceService {
        Optional<Place> findById = placeRepo.findById(placeId);
        if(findById.isPresent()) return findById.get();
         return null;
+    }
+
+    @Override
+    public Long getTotalVisitor(VisitorRequestDto requestDto) {
+        
+        Long ans =  bookingService.getAllBookings(requestDto);
+        
+        
+        return ans;
     }
 
 }

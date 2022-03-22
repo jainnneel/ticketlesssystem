@@ -24,6 +24,7 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.razorpay.Order;
+import com.razorpay.Payment;
 import com.razorpay.RazorpayClient;
 import com.ticketless.model.Booking;
 import com.ticketless.model.CancelOrder;
@@ -35,6 +36,7 @@ import com.ticketless.repository.CancelRepo;
 import com.ticketless.requestdto.OrderCancellationDto;
 import com.ticketless.requestdto.OrderPaymentDto;
 import com.ticketless.requestdto.OrderRequestDto;
+import com.ticketless.requestdto.VisitorRequestDto;
 import com.ticketless.resposedto.BookingDetailsResponse;
 import com.ticketless.resposedto.BookingDetailsResponseDto;
 import com.ticketless.resposedto.BookingResponseDto;
@@ -123,10 +125,16 @@ public class BookingServiceImpl implements BookingService {
             if (booking != null) {
                 RazorpayClient razorpayClient = new RazorpayClient("rzp_test_9B8AXwdinhrVTx",
                         "aeRfMEbWIgA3mA2fOsY7LU0G");
-//                Payment payment = razorpayClient.Payments.fetch(orderDto.getPaymentId());
-//                if (payment != null && payment.get("amount").toString().trim().equals(booking.getAmount())
-//                        && payment.get("order_id").toString().trim().equals(orderDto.getOrderId())
-//                        && payment.get("status").toString().trim().equals("captured")) {
+                Payment payment = razorpayClient.Payments.fetch(orderDto.getPaymentId());
+                System.out.println(Long.valueOf(booking.getAmount().split("\\.")[0]) * 100 == Long.valueOf(payment.get("amount").toString().trim()));
+                
+                System.out.println(payment.get("amount").toString().trim());
+                System.out.println(payment.get("order_id").toString().trim());
+                System.out.println(payment.get("status").toString().trim());
+                
+                if (payment != null && Long.valueOf(booking.getAmount().split("\\.")[0]) * 100 == Long.valueOf(payment.get("amount").toString().trim())
+                        && payment.get("order_id").toString().trim().equals(orderDto.getOrderId())
+                        && payment.get("status").toString().trim().equals("captured")) {
                 booking.setBookingDate(Date.valueOf(LocalDate.now()));
                 booking.setBookingTime(Time.valueOf(LocalTime.now()));
                 booking.setPaymentId(orderDto.getPaymentId());
@@ -139,7 +147,7 @@ public class BookingServiceImpl implements BookingService {
                 orderUpdateResponseDto.setDetailsResponseDto(bookingDetailsDtoConvertor(booking));
                 orderUpdateResponseDto.setQrResponseDto(new QrResponseDto(code.getQrUrl()));
                 return orderUpdateResponseDto;
-//                }
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -209,7 +217,7 @@ public class BookingServiceImpl implements BookingService {
                     cancelOrder.setAdultQnt(cancellationDto.getAdultQnt());
                     cancelOrder.setChildQnt(cancellationDto.getChildQnt());
                     cancelOrder.setStatus("In Progress");
-                    if (cancellationDto.getRefundMode().equals("account")) {
+                    if (cancellationDto.getRefundMode().equals("Account")) {
                         cancelOrder.setAccountNo(cancellationDto.getAccountNo());
                         cancelOrder.setIfscCode(cancellationDto.getIfscCode());
                     } else {
@@ -384,6 +392,12 @@ public class BookingServiceImpl implements BookingService {
             return dto;
         }
         return null;
+    }
+
+    @Override
+    public Long getAllBookings(VisitorRequestDto requestDto) {
+        List<Booking> bookings =  bookingRepo.getAllBooking(Long.valueOf(requestDto.getPlaceId()),requestDto.getVisitdate());
+        return Long.valueOf(bookings.size());
     }
 
 }

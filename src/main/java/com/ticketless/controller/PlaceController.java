@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ticketless.requestdto.StateCitySearch;
+import com.ticketless.requestdto.VisitorRequestDto;
 import com.ticketless.resposedto.PlaceResponseDto;
 import com.ticketless.resposedto.ResponseEntity;
 import com.ticketless.service.PlaceService;
@@ -44,6 +45,16 @@ public class PlaceController {
         responseEntity.setStatus("success");
         return responseEntity;
     }
+    
+    @PostMapping(value = "/place/totalVisitors",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getTotalVisitors(@RequestBody VisitorRequestDto requestDto) {
+        ResponseEntity responseEntity = new ResponseEntity();
+        Long ansLong =  placeService.getTotalVisitor(requestDto);
+        responseEntity.setData(ansLong);
+        responseEntity.setStatus("success");
+        return responseEntity;
+    }
+    
     
 }
 

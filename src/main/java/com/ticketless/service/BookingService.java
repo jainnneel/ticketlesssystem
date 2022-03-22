@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.ticketless.requestdto.OrderCancellationDto;
 import com.ticketless.requestdto.OrderPaymentDto;
 import com.ticketless.requestdto.OrderRequestDto;
+import com.ticketless.requestdto.VisitorRequestDto;
 import com.ticketless.resposedto.BookingDetailsResponse;
 import com.ticketless.resposedto.BookingDetailsResponseDto;
 import com.ticketless.resposedto.BookingResponseDto;
@@ -35,5 +36,7 @@ public interface BookingService {
     OrderReviewDto getBooKingInfo(String bookingId);
 
     OrderUpdateResponseDto getBookingReceit(String bookingId);
+
+    Long getAllBookings(VisitorRequestDto requestDto);
 
 }

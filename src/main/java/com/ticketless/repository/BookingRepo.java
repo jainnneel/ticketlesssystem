@@ -20,4 +20,7 @@ public interface BookingRepo extends JpaRepository<Booking, Long> {
     @Query(value = "select b from Booking b where b.qrCode.qrId=?1")
     Optional<Booking> findByQRId(String bookingId);
 
+    @Query(value = "select b from Booking b where b.visitDate=?2 and b.place.placeId=?1")
+    List<Booking> getAllBooking(Long placeId, String visitdate);
+
 }
