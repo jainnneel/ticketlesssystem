@@ -193,7 +193,7 @@ public class BookingServiceImpl implements BookingService {
                 .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
                 .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)
                 .parseDefaulting(ChronoField.MILLI_OF_SECOND, 0)
-                .toFormatter();
+                .toFormatter(); 
         String bookingDate = booking.getVisitDate();
         if(LocalDate.now().isBefore(LocalDate.parse(bookingDate, format))) {
             bookingDetailsResponseDto.setCanCancel(true);
