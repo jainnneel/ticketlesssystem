@@ -198,7 +198,7 @@ public class BookingServiceImpl implements BookingService {
         if(LocalDate.now().isBefore(LocalDate.parse(bookingDate, format))) {
             bookingDetailsResponseDto.setCanCancel(true);
         }
-        
+             
         return bookingDetailsResponseDto;
     }
 
