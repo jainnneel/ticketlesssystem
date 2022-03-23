@@ -186,7 +186,7 @@ public class BookingServiceImpl implements BookingService {
         bookingDetailsResponseDto.setPlaceResponseDto(placeService.getPlaceById(booking.getPlace().getPlaceId()));
         bookingDetailsResponseDto.setCancelled(booking.isCancelled());
         bookingDetailsResponseDto.setCompleted(booking.getPaymentId() != null);
-        bookingDetailsResponseDto.setQrResponseDto(new QrResponseDto(booking.getQrCode().getQrUrl()));
+        if(booking.getQrCode() != null) bookingDetailsResponseDto.setQrResponseDto(new QrResponseDto(booking.getQrCode().getQrUrl()));
         DateTimeFormatter format = new DateTimeFormatterBuilder()
                 .appendPattern("dd-MM-yyyy")
                 .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
