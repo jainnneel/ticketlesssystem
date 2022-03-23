@@ -129,7 +129,7 @@ public class BookingServiceImpl implements BookingService {
                 System.out.println(Long.valueOf(booking.getAmount().split("\\.")[0]) * 100 == Long.valueOf(payment.get("amount").toString().trim()));
                 
                 System.out.println(payment.get("amount").toString().trim());
-                System.out.println(payment.get("order_id").toString().trim());
+                System.out.println(payment.get("order_id").toString() .trim());
                 System.out.println(payment.get("status").toString().trim());
                 
                 if (payment != null && Long.valueOf(booking.getAmount().split("\\.")[0]) * 100 == Long.valueOf(payment.get("amount").toString().trim())
@@ -186,6 +186,7 @@ public class BookingServiceImpl implements BookingService {
         bookingDetailsResponseDto.setPlaceResponseDto(placeService.getPlaceById(booking.getPlace().getPlaceId()));
         bookingDetailsResponseDto.setCancelled(booking.isCancelled());
         bookingDetailsResponseDto.setCompleted(booking.getPaymentId() != null);
+        bookingDetailsResponseDto.setQrResponseDto(new QrResponseDto(booking.getQrCode().getQrUrl()));
         DateTimeFormatter format = new DateTimeFormatterBuilder()
                 .appendPattern("dd-MM-yyyy")
                 .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
