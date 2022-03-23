@@ -69,7 +69,7 @@ public class UsersController {
         return responseEntity;
     }
     
-    @GetMapping(value = "/check/approve/{bookingId}",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/check/approve/{bookingId}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity approveBooking(@PathVariable("bookingId") String bookingId) {
         ResponseEntity responseEntity = new ResponseEntity();
         
