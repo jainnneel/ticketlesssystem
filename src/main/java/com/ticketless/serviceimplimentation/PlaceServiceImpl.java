@@ -39,9 +39,19 @@ public class PlaceServiceImpl implements PlaceService {
             stateCitySearch.setStateName("");
         }
 
+        if(stateCitySearch.getPlaceName().equals("") && stateCitySearch.getCityName().equals("") && stateCitySearch.getPlaceName().equals("")) {
+            List<PlaceResponseDto> placeResponseDtos1;
+            Pageable pageable = PageRequest.of(pageNo - 1, 10);
+            List<Place> response = placeRepo.getPlaceCityStateTopTen(pageable).getContent();
+            placeResponseDtos1 = converToDto(response);
+            return placeResponseDtos1;
+            
+        }
+        
         List<PlaceResponseDto> placeResponseDtos;
         try {
             Pageable pageable = PageRequest.of(pageNo - 1, 10);
+            System.out.println(stateCitySearch);
             List<Place> response = placeRepo.getPlaceCityState(stateCitySearch.getCityName(),
                     stateCitySearch.getStateName(), stateCitySearch.getPlaceName(), pageable).getContent();
             placeResponseDtos = converToDto(response);
