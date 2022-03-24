@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class TicketlessEntrySystemApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TicketlessEntrySystemApplication.class, args);
+		
+	    SpringApplication.run(TicketlessEntrySystemApplication.class, args);
+		
 	}
 
 }

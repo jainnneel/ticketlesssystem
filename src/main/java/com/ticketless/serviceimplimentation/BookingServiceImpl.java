@@ -48,6 +48,9 @@ import com.ticketless.resposedto.QrResponseDto;
 import com.ticketless.service.BookingService;
 import com.ticketless.service.PlaceService;
 import com.ticketless.service.UsersService;
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 
 @Component
 public class BookingServiceImpl implements BookingService {
@@ -146,6 +149,15 @@ public class BookingServiceImpl implements BookingService {
                 orderUpdateResponseDto.setPlaceResponseDto(placeService.getPlaceById(booking.getPlace().getPlaceId()));
                 orderUpdateResponseDto.setDetailsResponseDto(bookingDetailsDtoConvertor(booking));
                 orderUpdateResponseDto.setQrResponseDto(new QrResponseDto(code.getQrUrl()));
+                Twilio.init("ACd4239cce1ba6582685cd0ba7023d57e9", "ce2f09eccd1c3870873dbf6bac0f791a"); 
+                Message message = Message.creator(
+                        new PhoneNumber("+91"+booking.getUsers().getMobileNo()),    
+                        new PhoneNumber("+16812532627"),
+                        "Your booking is completed with amount " + booking.getAmount() +".  Your oders details : http://ghumegaindia.in/myorder"
+                        )
+                        .create();
+                        System.out.println(message.getStatus());
+                
                 return orderUpdateResponseDto;
                 }
             }
@@ -249,7 +261,13 @@ public class BookingServiceImpl implements BookingService {
                             Double.valueOf((cancellationDto.getAdultQnt() + cancellationDto.getChildQnt()) * 10)));
 
                     cancelRepo.save(cancelOrder);
-
+                    Twilio.init("ACd4239cce1ba6582685cd0ba7023d57e9", "ce2f09eccd1c3870873dbf6bac0f791a"); 
+                    Message message = Message.creator(
+                            new PhoneNumber("+91"+userDetails.getUsername()),    
+                            new PhoneNumber("+16812532627"),
+                            "Your Booking is cancelled refund Amount: " + refundAmount + ".  refund will prooced up to 48 hours")
+                            .create();
+                            System.out.println(message.getStatus());
                     return calcelOrderDtoConvertor(cancelOrder);
                 }
             }
@@ -295,22 +313,22 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<OrderCancelResponseDto> getAllCancelOreders(String username) {
-
+        
         List<OrderCancelResponseDto> cancelResponseDtos = new ArrayList<>();
         try {
             Users users = usersService.getUserByMobile(username);
             List<CancelOrder> cancelOrders = cancelRepo.findByusers(users);
-
+            
             for (CancelOrder cancelOrder : cancelOrders) {
                 cancelResponseDtos.add(calcelOrderDtoConvertor(cancelOrder));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        
         return cancelResponseDtos;
     }
-
+    
     @Override
     public BookingDetailsResponse getDetails(String bookingId) {
 
